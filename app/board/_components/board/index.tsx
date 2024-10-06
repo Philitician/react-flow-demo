@@ -1,6 +1,12 @@
 "use client";
 
-import { Background, Controls, ReactFlow, useNodesState } from "@xyflow/react";
+import {
+  Background,
+  BackgroundVariant,
+  Controls,
+  ReactFlow,
+  useNodesState,
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { match } from "ts-pattern";
 
@@ -12,8 +18,13 @@ import {
 } from "./nodes";
 import { useToolStore } from "@/tool-store/provider";
 import { useCallback } from "react";
+import { notFound, useSearchParams } from "next/navigation";
 
 export function Board() {
+  const searchParams = useSearchParams();
+  const blueprintUrl = searchParams.get("blueprintUrl");
+  if (!blueprintUrl) notFound();
+
   const [nodes, setNodes, onNodesChange] =
     useNodesState<CustomNode>(initialNodes);
   const pendingSymbol = useToolStore((state) => state.pendingSymbol);

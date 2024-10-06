@@ -1,29 +1,30 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Board } from "./_components/board";
-import { Toolbar } from "./_components/toolbar";
+import { Suspense } from "react";
+import Link from "next/link";
+import { list } from "@vercel/blob";
+
+import { BlueprintUploader } from "./_components/blueprint-uploader";
 
 export default function Home() {
   return (
-    <main className="h-screen w-screen">
-      <div className="flex items-center justify-between p-4 border-b">
-        <Title />
-        <Toolbar />
-        <div className="flex gap-2">
-          <Button variant="ghost">Del</Button>
-        </div>
-      </div>
-      <Board />
+    <main className="flex flex-col gap-4">
+      <h2>Manage Blueprints</h2>
+      <BlueprintUploader />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Blueprints />
+      </Suspense>
     </main>
   );
 }
 
-function Title() {
+async function Blueprints() {
+  const files = await list();
   return (
-    <Input
-      type="text"
-      placeholder="<tegningNavn>"
-      className="border rounded px-2 py-1 max-w-48"
-    />
+    <div className="flex flex-col gap-2">
+      {files.blobs.map((file) => (
+        <Link href={`/board?blueprintUrl=${encodeURI(file.url)}`}>
+          {file.pathname}
+        </Link>
+      ))}
+    </div>
   );
 }
