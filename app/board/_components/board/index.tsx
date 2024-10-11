@@ -19,6 +19,7 @@ import {
 import { useToolStore } from "@/tool-store/provider";
 import { useCallback } from "react";
 import { notFound, useSearchParams } from "next/navigation";
+import { CustomBackground } from "../custom-background";
 
 export function Board() {
   const searchParams = useSearchParams();
@@ -71,8 +72,9 @@ export function Board() {
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onPaneClick={onPaneClick}
+        fitView
       >
-        <Background />
+        <CustomBackground imageUrl={blueprintUrl} />
         <Controls />
       </ReactFlow>
     </div>
