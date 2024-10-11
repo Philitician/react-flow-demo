@@ -21,6 +21,7 @@ async function Blueprints() {
   return (
     <div className="flex flex-col gap-2">
       <div>{process.env.MY_VAR}</div>
+
       {files.blobs.map((file) => (
         <Link href={`/board?blueprintUrl=${encodeURI(file.url)}`}>
           {file.pathname}
