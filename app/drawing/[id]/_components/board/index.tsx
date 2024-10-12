@@ -1,32 +1,24 @@
 "use client";
 
-import {
-  Background,
-  BackgroundVariant,
-  Controls,
-  ReactFlow,
-  useNodesState,
-} from "@xyflow/react";
+import { Controls, ReactFlow, useNodesState } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { match } from "ts-pattern";
 
-import {
-  CustomNode,
-  ElectricalSymbolNode,
-  initialNodes,
-  nodeTypes,
-} from "./nodes";
 import { useToolStore } from "@/tool-store/provider";
-import { useCallback } from "react";
-import { notFound, useSearchParams } from "next/navigation";
+import { use, useCallback } from "react";
+import { BoardDrawing } from "../../queries";
+import { BlueprintBackground } from "./blueprint-background";
+import { CustomNode, ElectricalSymbolNode, nodeTypes } from "./nodes";
 
-export function Board() {
-  const searchParams = useSearchParams();
-  const blueprintUrl = searchParams.get("blueprintUrl");
-  if (!blueprintUrl) notFound();
+type BoardProps = {
+  boardDrawingPromise: Promise<BoardDrawing>;
+};
 
-  const [nodes, setNodes, onNodesChange] =
-    useNodesState<CustomNode>(initialNodes);
+export function Board({ boardDrawingPromise }: BoardProps) {
+  const initialBoardDrawing = use(boardDrawingPromise);
+  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>(
+    initialBoardDrawing.nodes
+  );
   const pendingSymbol = useToolStore((state) => state.pendingSymbol);
   const selectedTool = useToolStore((state) => state.selectedTool);
   const resetPendingSymbol = useToolStore((state) => state.resetPendingSymbol);
@@ -72,7 +64,7 @@ export function Board() {
         onNodesChange={onNodesChange}
         onPaneClick={onPaneClick}
       >
-        <Background />
+        <BlueprintBackground blueprintUrl={initialBoardDrawing.blueprintUrl} />
         <Controls />
       </ReactFlow>
     </div>

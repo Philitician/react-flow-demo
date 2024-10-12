@@ -12,7 +12,7 @@ export function ElectricalSymbolNode({
 }: ElectricalSymbolNodeProps) {
   return (
     <div
-      className={cn("flex items-center justify-center", {
+      className={cn("flex items-center justify-center text-primary", {
         "ring-1 ring-blue-500": selected,
       })}
     >

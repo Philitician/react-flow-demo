@@ -2,8 +2,6 @@ import type { BuiltInNode, Node, NodeTypes } from "@xyflow/react";
 import { ElectricalSymbolNode } from "./electrical-symbol-node";
 import { ElectricalSymbol } from "@/types";
 
-export const initialNodes = [] satisfies Node[];
-
 export const nodeTypes = {
   "electrical-symbol": ElectricalSymbolNode,
   // Add any of your custom nodes here!

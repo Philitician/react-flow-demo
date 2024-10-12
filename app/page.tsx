@@ -1,7 +1,8 @@
-import { Suspense } from "react";
 import Link from "next/link";
-import { list } from "@vercel/blob";
+import { Suspense } from "react";
 
+import { db } from "@/db/client";
+import { drawing } from "@/db/schemas";
 import { BlueprintUploader } from "./_components/blueprint-uploader";
 
 export default function Home() {
@@ -17,13 +18,12 @@ export default function Home() {
 }
 
 async function Blueprints() {
-  const files = await list();
+  const drawings = await db.select().from(drawing);
   return (
     <div className="flex flex-col gap-2">
-      <div>{process.env.MY_VAR}</div>
-      {files.blobs.map((file) => (
-        <Link href={`/board?blueprintUrl=${encodeURI(file.url)}`}>
-          {file.pathname}
+      {drawings.map((drawing) => (
+        <Link key={drawing.id} href={`/drawing/${drawing.id}`}>
+          {drawing.title}
         </Link>
       ))}
     </div>

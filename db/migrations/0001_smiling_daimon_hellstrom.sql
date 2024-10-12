@@ -1,0 +1,1 @@
+ALTER TABLE "drawing" ALTER COLUMN "nodes" SET DEFAULT '[]'::jsonb;

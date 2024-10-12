@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Board } from "./_components/board";
+import { Params } from "./schemas";
 import { Toolbar } from "./_components/toolbar";
+import { Board } from "./_components/board";
+import { getBoardDrawingById } from "./queries";
 
-type BoardPageProps = {
-  searchParams: {
-    blueprintUrl: string;
-  };
+type DrawingPageProps = {
+  params: Params;
 };
 
-export default function BoardPage({ searchParams }: BoardPageProps) {
+export default function BoardPage({ params }: DrawingPageProps) {
   return (
     <main className="h-screen w-screen">
       <div className="flex items-center justify-between p-4 border-b">
@@ -19,17 +19,11 @@ export default function BoardPage({ searchParams }: BoardPageProps) {
           <Button variant="ghost">Del</Button>
         </div>
       </div>
-      <Board />
+      <Board boardDrawingPromise={getBoardDrawingById(params.id)} />
     </main>
   );
 }
 
 function Title() {
-  return (
-    <Input
-      type="text"
-      placeholder="<tegningNavn>"
-      className="border rounded px-2 py-1 max-w-48"
-    />
-  );
+  return <Input type="text" placeholder="<tegningNavn>" className="max-w-48" />;
 }

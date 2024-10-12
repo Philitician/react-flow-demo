@@ -8,17 +8,20 @@ import {
 } from "@/components/file-uploader";
 import { upload } from "@vercel/blob/client";
 import { useCallback, useState } from "react";
-import { revalidateBlueprints } from "./actions";
+import { createDrawing } from "./actions";
 
 export function BlueprintUploader() {
   const [files, setFiles] = useState<UploaderFile[]>([]);
   const handleUpload = useCallback(async ([file]: LoadingFile[]) => {
-    const res = await upload(file.name, file, {
+    const blob = await upload(file.name, file, {
       access: "public",
       handleUploadUrl: "/api/upload",
     });
 
-    await revalidateBlueprints();
+    await createDrawing({
+      blueprintUrl: blob.url,
+      title: blob.pathname,
+    });
     return null;
   }, []);
   return (
