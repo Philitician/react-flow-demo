@@ -13,4 +13,4 @@ export const drawing = pgTable("drawing", {
 });
 
 export type InsertDrawing = typeof drawing.$inferInsert;
-export type SelectDrawing = typeof drawing.$inferSelect;
+export type Drawing = typeof drawing.$inferSelect;
